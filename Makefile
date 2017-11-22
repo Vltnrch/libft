@@ -6,7 +6,7 @@
 #    By: vroche <vroche@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/06 17:32:05 by vroche            #+#    #+#              #
-#    Updated: 2015/10/18 14:58:58 by vroche           ###   ########.fr        #
+#    Updated: 2017/05/10 16:42:16 by vroche           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = libft.a
 
 HDR = -I./includes
 
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g -O3
 
 CLIB = is/ft_isalnum.c \
 	is/ft_isalpha.c \
@@ -32,6 +32,7 @@ CLIB = is/ft_isalnum.c \
 	lst/ft_lstmap.c \
 	lst/ft_lstnew.c \
 	mem/ft_bzero.c \
+	mem/ft_freetab.c \
 	mem/ft_memalloc.c \
 	mem/ft_memccpy.c \
 	mem/ft_memchr.c \
@@ -71,6 +72,7 @@ CLIB = is/ft_isalnum.c \
 	str/ft_strnew.c \
 	str/ft_strnstr.c \
 	str/ft_strrchr.c \
+	str/ft_strsplit_space.c \
 	str/ft_strsplit.c \
 	str/ft_strstr.c \
 	str/ft_strsub.c \
@@ -105,7 +107,12 @@ CFPF = ft_printf/ft_ft.c \
 
 OFPF = $(CFPF:.c=.o)
 
-O = $(OLIB) $(OGNL) $(OFPF)
+CVECTOR = vector/vector.c \
+		vector/vector_tool.c
+
+OVECTOR = $(CVECTOR:.c=.o)
+
+O = $(OLIB) $(OGNL) $(OFPF) $(OVECTOR)
 
 $(NAME): $(O)
 	ar rc $(NAME) $(O)
@@ -125,8 +132,12 @@ gnl: $(OGNL) $(OLIB)
 	ar rc $(NAME) $(OGNL) $(OLIB)
 	ranlib $(NAME)
 
+vector: $(OVECTOR) $(OLIB)
+	ar rc $(NAME) $(OVECTOR) $(OLIB)
+	ranlib $(NAME)
+
 %.o:%.c
-	gcc $(CFLAGS) $(HDR) -c $< -o $@
+	clang $(CFLAGS) $(HDR) -c $< -o $@
 
 clean:
 	rm -f $(O)

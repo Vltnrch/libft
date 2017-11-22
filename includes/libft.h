@@ -95,5 +95,7 @@ char				*ft_lltoa(long long n);
 char				*ft_lltouab(long long n, unsigned int base);
 
 int					ft_isspace(int c);
+char				**ft_strsplit_space(const char *s);
+void				ft_freetab(char **tab);
 
 #endif
